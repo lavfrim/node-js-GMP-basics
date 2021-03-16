@@ -5,7 +5,8 @@
   "main": "",
   "scripts": {
     "start": "nodemon src/app.ts",
-    "task1": "nodemon src/tasks/task_1-1/index.ts"
+    "task1": "nodemon src/tasks/task_1-1/index.ts",
+    "task2": "nodemon src/tasks/task_1-2/index.ts"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,9 @@
     "url": "https://github.com/lavfrim/node-js-GMP-basics/issues"
   },
   "homepage": "https://github.com/lavfrim/node-js-GMP-basics#readme",
-  "dependencies": {},
+  "dependencies": {
+    "csvtojson": "^2.0.10"
+  },
   "devDependencies": {
     "@types/node": "^14.14.35",
     "nodemon": "^2.0.7",
