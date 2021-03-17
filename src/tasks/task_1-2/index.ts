@@ -32,7 +32,7 @@ const convertCSVtoJSON = () => {
 
             try {
                 const readCSVStream = fs.createReadStream(filePath);
-                const convertSteam = csvtojson({ delimiter: ';' });
+                const convertSteam = csvtojson();
                 const writeJSONStream = fs.createWriteStream(path.join(__dirname, 'txt', `${pathObj.name}.txt`));
                 const rlInterface = readline.createInterface({
                     input: readCSVStream,

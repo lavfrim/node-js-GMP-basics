@@ -4,9 +4,6 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
-    "start:babel": "npm run babel && npm run start",
-    "start": "babel-node src/babel-app.js",
-    "babel": "babel src/app.ts -o src/babel-app.js",
     "task1": "nodemon src/tasks/task_1-1/index.ts",
     "task2": "nodemon src/tasks/task_1-2/index.ts"
   },
@@ -25,12 +22,6 @@
     "csvtojson": "^2.0.10"
   },
   "devDependencies": {
-    "@babel/cli": "^7.13.10",
-    "@babel/core": "^7.13.10",
-    "@babel/node": "^7.13.10",
-    "@babel/preset-env": "^7.13.10",
-    "@babel/preset-es2015": "^7.0.0-beta.53",
-    "@babel/preset-typescript": "^7.13.0",
     "@types/node": "^14.14.35",
     "nodemon": "^2.0.7",
     "ts-node": "^9.1.1",
