@@ -1,7 +1,6 @@
 import { AutoSuggestUsersOption, User } from '../types';
 
 export const getAutoSuggestUsers = ({ userDataBase, loginSubstring, limit }: AutoSuggestUsersOption): User[] => {
-    console.log(userDataBase, loginSubstring, limit);
     return (
         userDataBase
             .filter((profile) => profile.login.includes(loginSubstring))

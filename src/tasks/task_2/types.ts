@@ -1,4 +1,8 @@
 import { Request } from 'express';
+import {
+    ContainerTypes,
+    ValidatedRequestSchema,
+} from 'express-joi-validation';
 
 export interface User {
     id: string;
@@ -25,4 +29,12 @@ export interface AutoSuggestUsersRequestQuery {
 
 export interface AutoSuggestUsersOption extends AutoSuggestUsersRequestQuery {
     userDataBase: User[];
+}
+
+export interface UserRequestSchema extends ValidatedRequestSchema {
+    [ContainerTypes.Body]: newUserRequestBody;
+}
+
+export interface AutoSuggestUsersRequestSchema extends ValidatedRequestSchema {
+    [ContainerTypes.Query]: AutoSuggestUsersRequestQuery;
 }

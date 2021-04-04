@@ -4,11 +4,17 @@ import {
     StatusCodes,
 } from 'http-status-codes';
 import { v4 as uuid } from 'uuid';
-import { User, newUserRequestBody, RequestWithInfo, AutoSuggestUsersRequestQuery } from '../types';
+import {
+    ValidatedRequest,
+    createValidator,
+} from 'express-joi-validation';
+import { userBodySchema, usersListQuerySchema } from '../validationSchemas';
+import { User, RequestWithInfo, UserRequestSchema, AutoSuggestUsersRequestSchema } from '../types';
 import { mockedUserDataBase } from '../mocks';
 import { getAutoSuggestUsers } from '../utils/getAutoSuggestUsers';
 
 export const userRouter = express.Router();
+const validator = createValidator();
 const userDataBase: User[] = [...mockedUserDataBase];
 
 userRouter.param('id', (req: RequestWithInfo, res, next, id) => {
@@ -28,9 +34,11 @@ userRouter.param('id', (req: RequestWithInfo, res, next, id) => {
     }
 })
 
-userRouter.get('/list', (req, res) => {
-    // body validation
-    const query = req.query as unknown as AutoSuggestUsersRequestQuery;
+userRouter.get(
+    '/list',
+    validator.query(usersListQuerySchema),
+    (req: ValidatedRequest<AutoSuggestUsersRequestSchema>, res) => {
+    const query = req.query;
     const autoSuggestUserList = getAutoSuggestUsers({ userDataBase, ...query });
 
     res.json(autoSuggestUserList);
@@ -44,24 +52,19 @@ userRouter.get('/:id', (req: RequestWithInfo, res) => {
     }
 });
 
-userRouter.post('/', (req, res) => {
-    // body validation
-    if (!req.body.password) {
-        res.status(StatusCodes.BAD_REQUEST);
-        res.json({
-            error: `[${ReasonPhrases.BAD_REQUEST}]: Request body have to be { login: string; password: string; age: number }`,
-        })
-    }
-
+userRouter.post(
+    '/',
+    validator.body(userBodySchema),
+    (req: ValidatedRequest<UserRequestSchema>, res) => {
     const isUnique = !!!userDataBase.find((profile) => profile.login === req.body.login);
 
     if (isUnique) {
-        const newUserProfile = {
+        const newUserProfile: User = {
             id: uuid(),
             isDeleted: false,
-            ...req.body as newUserRequestBody,
+            ...req.body,
         };
-        const isSuccessful = userDataBase.push(newUserProfile);
+        const isSuccessful = !!userDataBase.push(newUserProfile);
 
         if (isSuccessful) {
             res.status(StatusCodes.CREATED);
@@ -70,19 +73,21 @@ userRouter.post('/', (req, res) => {
                 user: newUserProfile,
             });
         }
+    } else {
+        res.status(StatusCodes.CONFLICT);
+        res.json({
+            message: `[${ReasonPhrases.CONFLICT}]: Such user already created`,
+        });
     }
+});
 
-    res.status(StatusCodes.CONFLICT);
-    res.json({
-        message: `[${ReasonPhrases.CONFLICT}]: Such user already created`,
-    })
-})
-
-userRouter.patch('/:id', (req: RequestWithInfo, res) => {
+userRouter.patch(
+    '/:id',
+    validator.body(userBodySchema),
+    (req: RequestWithInfo, res) => {
     const { user } = req.info;
-    // body validation
 
-    if (user && req.body) {
+    if (user) {
         Object.keys(req.body).forEach((prop) => {
             user[prop] = req.body[prop];
         })
