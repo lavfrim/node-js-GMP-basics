@@ -1,4 +1,3 @@
-import { Request } from 'express';
 import {
     ContainerTypes,
     ValidatedRequestSchema,
@@ -36,4 +35,35 @@ export interface UserServices {
     updateUser: (id: string, userInfo: newUserRequestBody) => Promise<SequelizeResponse>;
     deleteUser: (id: string) => Promise<SequelizeResponse>;
     getSuggestUsers: (subStr: string, limit: number) => Promise<SequelizeResponse>;
+}
+
+export type Permission = 'READ' | 'WRITE' | 'DELETE' | 'SHARE' | 'UPLOAD_FILES';
+
+export interface Group {
+    id: string;
+    name: string;
+    permissions: Permission[];
+}
+
+export interface newGroupRequestBody {
+    name: string;
+    permissions: Permission[];
+}
+
+export interface GroupServices {
+    createGroup: (group: newGroupRequestBody) => Promise<SequelizeResponse>;
+    updateGroup: (id: string, groupInfo: newGroupRequestBody) => Promise<SequelizeResponse>;
+    getGroupById: (id: string) => Promise<SequelizeResponse>;
+    getAllGroup: () => Promise<SequelizeResponse>;
+    removeGroup: (id: string) => Promise<SequelizeResponse>;
+    getGroupByName: (name: string) => Promise<SequelizeResponse>;
+    addUsersToGroup: (id: string, users: addUsersToGroupRequestBody['users'] ) => Promise<SequelizeResponse>
+}
+
+export interface addUsersToGroupRequestBody {
+    users: string[];
+}
+
+export interface AddUsersToGroupRequestSchema extends ValidatedRequestSchema {
+    [ContainerTypes.Body]: addUsersToGroupRequestBody;
 }

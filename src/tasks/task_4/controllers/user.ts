@@ -2,7 +2,7 @@ import { Response, Request } from 'express';
 import { userServices } from "../services/user";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { logoutServiceErrMsg } from './logoutServiceErrMsg';
-import { sendNoUser } from './sendNoUser';
+import { sendNoSmth } from './sendNoSmth';
 import { AutoSuggestUsersRequestSchema } from '../types';
 import { ValidatedRequest } from "express-joi-validation";
 
@@ -10,7 +10,7 @@ export const getUser = (req: Request, res: Response) => {
     userServices.getUserById(req.params.id)
         .then((data) => {
             if (data === null) {
-                return sendNoUser(res);
+                return sendNoSmth(res);
             }
 
             res.json(data.dataValues);
@@ -24,7 +24,7 @@ export const updateUser = (req: Request, res: Response) => {
     userServices.updateUser(req.params.id, req.body)
         .then((data) => {
             if (!data[0]) {
-                return sendNoUser(res);
+                return sendNoSmth(res);
             }
 
             res.status(StatusCodes.CREATED);
@@ -41,7 +41,7 @@ export const deleteUser = (req: Request, res: Response) => {
     userServices.deleteUser(req.params.id)
         .then((data) => {
             if (!data[0]) {
-                return sendNoUser(res);
+                return sendNoSmth(res);
             }
 
             res.status(StatusCodes.CREATED);
@@ -94,7 +94,7 @@ export const getAutoSuggestUserList = (req: ValidatedRequest<AutoSuggestUsersReq
     userServices.getSuggestUsers(loginSubstring, limit)
         .then((data) => {
             if (!data.length) {
-                return sendNoUser(res);
+                return sendNoSmth(res);
             }
 
             res.json(data.map((user) => user.dataValues));

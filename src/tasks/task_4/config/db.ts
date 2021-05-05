@@ -14,4 +14,6 @@ export const db: ClientConfig = {
 export const dbDialect = 'postgres';
 export enum TableNames {
     USER = 'users',
+    GROUP = 'groups',
+    USER_GROUP = 'userGroups',
 }
