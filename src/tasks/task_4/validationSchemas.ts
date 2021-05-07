@@ -6,5 +6,5 @@ export const usersListQuerySchema = Joi.object({
 });
 
 export const addUsersToGroupBodySchema = Joi.object({
-    users: Joi.array().items(Joi.string()).required(),
+    users: Joi.array().unique().items(Joi.string().valid('READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES')),
 });
