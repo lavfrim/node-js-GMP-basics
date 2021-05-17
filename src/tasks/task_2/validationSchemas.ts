@@ -9,5 +9,4 @@ export const userBodySchema = Joi.object({
 export const usersListQuerySchema = Joi.object({
     loginSubstring: Joi.string().required(),
     limit: Joi.number().min(1).max(128).required(),
-})
-
+});
