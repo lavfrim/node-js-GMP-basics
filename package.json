@@ -7,7 +7,7 @@
     "task1-1": "nodemon src/tasks/task_1-1/index.ts",
     "task1-2": "nodemon src/tasks/task_1-2/index.ts",
     "task2": "nodemon src/tasks/task_2/index.ts",
-    "task3": "ts-node src/tasks/task_3/scripts/createDB.ts && nodemon src/tasks/task_3/index.ts"
+    "task5": "ts-node src/tasks/task_3_plus/scripts/createDB.ts && nodemon src/tasks/task_3_plus/index.ts"
   },
   "repository": {
     "type": "git",
