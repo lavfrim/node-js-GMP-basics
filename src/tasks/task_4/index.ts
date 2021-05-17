@@ -20,10 +20,6 @@ const serverStartMsg = `--------------------------------------------------------
 ${colors.blue(`Server running on port: ${PORT}...`)}
 `;
 
-// Set DB relationships
-User.belongsToMany(Group, { through: UserGroup, constraints: true, onDelete: 'CASCADE' });
-Group.belongsToMany(User, { through: UserGroup, constraints: true, onDelete: 'CASCADE' });
-
 index.use(express.json());
 index.use(setAllowMethod);
 index.use(path.posix.join(process.env.APP_URL_BASE_V1, 'user'), user);
