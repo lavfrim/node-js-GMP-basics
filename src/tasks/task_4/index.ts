@@ -8,10 +8,6 @@ import { group } from './routers/group';
 import { setAllowMethod } from './controllers/setAllowMethed';
 import { setWentWrong } from './controllers/setWentWrong';
 
-import { User } from './models/user';
-import { Group } from './models/group';
-import { UserGroup } from './models/userGroup';
-
 dotenv.config();
 const index = express();
 
