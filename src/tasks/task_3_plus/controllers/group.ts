@@ -1,4 +1,4 @@
-import { Response, Request } from 'express';
+import { Response, Request, NextFunction } from 'express';
 import { groupServices } from '../services/group';
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { logoutServiceErrMsg } from './logoutServiceErrMsg';
@@ -6,7 +6,7 @@ import { sendNoGroup } from './sendNoSmth';
 import { ValidatedRequest } from "express-joi-validation";
 import { AddUsersToGroupRequestSchema } from '../types';
 
-export const getGroup = (req: Request, res: Response) => {
+export const getGroup = (req: Request, res: Response, next: NextFunction) => {
     groupServices.getGroupById(req.params.id)
         .then((data) => {
             if (data === null) {
@@ -16,11 +16,11 @@ export const getGroup = (req: Request, res: Response) => {
             res.json(data.dataValues);
         })
         .catch((err) => {
-            logoutServiceErrMsg({ name: 'getGroupById', req, res, err });
+            next({ methodName: 'getGroupById', methodArguments: [req.params.id], err });
         })
 };
 
-export const updateGroup = (req: Request, res: Response) => {
+export const updateGroup = (req: Request, res: Response, next: NextFunction) => {
     groupServices.updateGroup(req.params.id, req.body)
         .then((data) => {
             if (!data[0]) {
@@ -33,11 +33,11 @@ export const updateGroup = (req: Request, res: Response) => {
             });
         })
         .catch((err) => {
-            logoutServiceErrMsg({ name: 'updateGroup', req, res, err });
+            next({ methodName: 'updateGroup', methodArguments: [req.params.id, req.body], err });
         })
 };
 
-export const removeGroup = (req: Request, res: Response) => {
+export const removeGroup = (req: Request, res: Response, next: NextFunction) => {
     groupServices.removeGroup(req.params.id)
         .then((data) => {
             if (!data[0]) {
@@ -50,11 +50,11 @@ export const removeGroup = (req: Request, res: Response) => {
             });
         })
         .catch((err) => {
-            logoutServiceErrMsg({ name: 'removeGroup', req, res, err });
+            next({ methodName: 'removeGroup', methodArguments: [req.params.id], err });
         })
 };
 
-export const createGroup = (req: Request, res: Response) => {
+export const createGroup = (req: Request, res: Response, next: NextFunction) => {
     const createGroup = () => groupServices.createGroup(req.body)
         .then((data) => {
             if (!data) {
@@ -68,10 +68,10 @@ export const createGroup = (req: Request, res: Response) => {
             });
         })
         .catch((err) => {
-            logoutServiceErrMsg({ name: 'createGroup', req, res, err });
+            next({ methodName: 'createGroup', methodArguments: [req.body], err });
         })
 
-    groupServices.getGroupByName( req.body.name)
+    groupServices.getGroupByName(req.body.name)
         .then((data) => {
             if (data === null) {
                 return createGroup();
@@ -83,12 +83,12 @@ export const createGroup = (req: Request, res: Response) => {
             });
         })
         .catch((err) => {
-            logoutServiceErrMsg({ name: 'getGroupByName', req, res, err });
+            next({ methodName: 'getGroupByName', methodArguments: [req.body.name], err });
         })
 
 };
 
-export const getAllGroups = (req: Request, res: Response) => {
+export const getAllGroups = (req: Request, res: Response, next: NextFunction) => {
     groupServices.getAllGroup()
         .then((data) => {
             if (data === null) {
@@ -98,14 +98,14 @@ export const getAllGroups = (req: Request, res: Response) => {
             res.json(data.dataValues);
         })
         .catch((err) => {
-            logoutServiceErrMsg({ name: 'getAllGroup', req, res, err });
+            next({ methodName: 'getAllGroup', methodArguments: [], err });
         })
 };
 
-export const addUsersToGroup = async (req: ValidatedRequest<AddUsersToGroupRequestSchema>, res: Response) => {
+export const addUsersToGroup = async (req: ValidatedRequest<AddUsersToGroupRequestSchema>, res: Response, next: NextFunction) => {
     try {
         await groupServices.addUsersToGroup(req.params.id, req.body.users);
     } catch (err) {
-        logoutServiceErrMsg({ name: 'addUsersToGroup', req, res, err });
+        next({ methodName: 'addUsersToGroup', methodArguments: [req.params.id, req.body.users], err });
     }
 };

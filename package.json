@@ -7,7 +7,8 @@
     "task1-1": "nodemon src/tasks/task_1-1/index.ts",
     "task1-2": "nodemon src/tasks/task_1-2/index.ts",
     "task2": "nodemon src/tasks/task_2/index.ts",
-    "task5": "ts-node src/tasks/task_3_plus/scripts/createDB.ts && nodemon src/tasks/task_3_plus/index.ts"
+    "task3-plus-with-script": "ts-node src/tasks/task_3_plus/scripts/createDB.ts && nodemon src/tasks/task_3_plus/index.ts",
+    "task3-plus": "nodemon src/tasks/task_3_plus/index.ts"
   },
   "repository": {
     "type": "git",
@@ -31,7 +32,8 @@
     "pg": "^8.6.0",
     "pg-hstore": "^2.3.3",
     "sequelize": "^6.6.2",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@types/pg": "^7.14.11",
