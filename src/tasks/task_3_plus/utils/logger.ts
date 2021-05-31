@@ -9,8 +9,7 @@ ${Object.keys(err).length && JSON.stringify(err, null, 2)}
 ${Object.keys(args).length ? JSON.stringify(args, null, 2) : ''}`
 );
 
-
-export const loggerError = createLogger({
+export const logger = createLogger({
     transports: [
         new transports.File({
             filename: path.join(__dirname, '..', 'logs', 'Error.log'),

@@ -1,7 +1,6 @@
 import { Response, Request, NextFunction } from 'express';
 import { userServices } from "../services/user";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
-import { logoutServiceErrMsg } from './logoutServiceErrMsg';
 import { sendNoSmth } from './sendNoSmth';
 import { AutoSuggestUsersRequestSchema } from '../types';
 import { ValidatedRequest } from "express-joi-validation";
@@ -14,9 +13,6 @@ export const getUser = (req: Request, res: Response, next: NextFunction) => {
             }
 
             res.json(data.dataValues);
-        })
-        .catch((err) => {
-            next({ methodName: 'getUserById', methodArguments: [req.params.id], err });
         })
 };
 
@@ -32,9 +28,6 @@ export const updateUser = (req: Request, res: Response, next: NextFunction) => {
                 message: `[${ReasonPhrases.CREATED}]: User profile was updated`,
             });
         })
-        .catch((err) => {
-            next({ methodName: 'updateUser', methodArguments: [req.params.id, req.body], err });
-        })
 };
 
 export const deleteUser = (req: Request, res: Response, next: NextFunction) => {
@@ -49,16 +42,13 @@ export const deleteUser = (req: Request, res: Response, next: NextFunction) => {
                 message: `[${ReasonPhrases.CREATED}]: User was soft deleted`,
             });
         })
-        .catch((err) => {
-            next({ methodName: 'deleteUser', methodArguments: [req.params.id], err });
-        })
 };
 
 export const createUser = (req: Request, res: Response, next: NextFunction) => {
     const createUser = () => userServices.createUser(req.body)
         .then((data) => {
             if (!data) {
-                next({ methodName: 'createUser', methodArguments: [req.body] });
+                throw 'data base error';
             }
 
             res.status(StatusCodes.CREATED);
@@ -66,9 +56,6 @@ export const createUser = (req: Request, res: Response, next: NextFunction) => {
                 message: `[${ReasonPhrases.CREATED}]: User was created`,
                 user: data.dataValues,
             });
-        })
-        .catch((err) => {
-            next({ methodName: 'createUser', methodArguments: [req.body], err });
         })
 
     userServices.getUserByField('login', req.body.login)
@@ -82,10 +69,6 @@ export const createUser = (req: Request, res: Response, next: NextFunction) => {
                 message: `[${ReasonPhrases.CONFLICT}]: Such user already created`,
             });
         })
-        .catch((err) => {
-            next({ methodName: 'getUserByField', methodArguments: ['login', req.body.login] , err });
-        })
-
 };
 
 export const getAutoSuggestUserList = (req: ValidatedRequest<AutoSuggestUsersRequestSchema>, res: Response, next: NextFunction) => {
@@ -98,8 +81,5 @@ export const getAutoSuggestUserList = (req: ValidatedRequest<AutoSuggestUsersReq
             }
 
             res.json(data.map((user) => user.dataValues));
-        })
-        .catch((err) => {
-            next({ methodName: 'getAutoSuggestUserList', methodArguments: [loginSubstring, limit], err });
         })
 };
