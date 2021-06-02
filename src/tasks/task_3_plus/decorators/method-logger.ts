@@ -6,7 +6,7 @@ export function tryCatchLogger<F extends (...args: any[]) => any>(func: F): F {
             const start = Date.now();
             const result = await func(...args);
             const end = Date.now();
-            process.stdout.write(`service method: ${func.name}; arguments: ${JSON.stringify(args)}, time: ${end - start}ms`);
+            process.stdout.write(`service method: ${func.name}; arguments: ${JSON.stringify(args)}, time: ${end - start}ms\n`);
 
             return result;
         } catch(err) {

@@ -8,3 +8,8 @@ export const usersListQuerySchema = Joi.object({
 export const addUsersToGroupBodySchema = Joi.object({
     users: Joi.array().unique().items(Joi.string().valid('READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES')),
 });
+
+export const loginBodySchema = Joi.object({
+    login: Joi.string().required(),
+    password: Joi.string().required(),
+});
