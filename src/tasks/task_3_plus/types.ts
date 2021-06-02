@@ -2,6 +2,7 @@ import {
     ContainerTypes,
     ValidatedRequestSchema,
 } from 'express-joi-validation';
+import {Error} from "sequelize";
 
 type SequelizeResponse = any;
 
@@ -66,4 +67,10 @@ export interface addUsersToGroupRequestBody {
 
 export interface AddUsersToGroupRequestSchema extends ValidatedRequestSchema {
     [ContainerTypes.Body]: addUsersToGroupRequestBody;
+}
+
+export interface CustomError {
+    methodName: string,
+    methodArguments: any[],
+    err: Error,
 }
