@@ -1,4 +1,4 @@
-import { setWentWrong } from "./setWentWrong";
+import { setWentWrong } from '../middleware/setWentWrong';
 import colors from "colors";
 import { Request, Response } from "express";
 import { AutoSuggestUsersRequestSchema } from "../types";
