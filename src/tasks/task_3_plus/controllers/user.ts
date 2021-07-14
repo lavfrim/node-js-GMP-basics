@@ -51,6 +51,7 @@ export const createUser = (req: Request, res: Response) => {
                 throw 'data base error';
             }
 
+            console.log(`createUser`);
             res.status(StatusCodes.CREATED);
             res.json({
                 message: `[${ReasonPhrases.CREATED}]: User was created`,
@@ -71,7 +72,7 @@ export const createUser = (req: Request, res: Response) => {
         })
 };
 
-export const getAutoSuggestUserList = (req: ValidatedRequest<AutoSuggestUsersRequestSchema>, res: Response, next: NextFunction) => {
+export const getAutoSuggestUserList = (req: ValidatedRequest<AutoSuggestUsersRequestSchema>, res: Response) => {
     const { loginSubstring, limit } = req.query;
 
     userServices.getSuggestUsers(loginSubstring, limit)

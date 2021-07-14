@@ -6,7 +6,7 @@ import { sendNoGroup } from './sendNoSmth';
 import { ValidatedRequest } from "express-joi-validation";
 import { AddUsersToGroupRequestSchema } from '../types';
 
-export const getGroup = (req: Request, res: Response, next: NextFunction) => {
+export const getGroup = (req: Request, res: Response) => {
     groupServices.getGroupById(req.params.id)
         .then((data) => {
             if (data === null) {
@@ -17,7 +17,7 @@ export const getGroup = (req: Request, res: Response, next: NextFunction) => {
         })
 };
 
-export const updateGroup = (req: Request, res: Response, next: NextFunction) => {
+export const updateGroup = (req: Request, res: Response) => {
     groupServices.updateGroup(req.params.id, req.body)
         .then((data) => {
             if (!data[0]) {
@@ -31,7 +31,7 @@ export const updateGroup = (req: Request, res: Response, next: NextFunction) => 
         })
 };
 
-export const removeGroup = (req: Request, res: Response, next: NextFunction) => {
+export const removeGroup = (req: Request, res: Response) => {
     groupServices.removeGroup(req.params.id)
         .then((data) => {
             if (!data[0]) {
@@ -45,7 +45,7 @@ export const removeGroup = (req: Request, res: Response, next: NextFunction) => 
         })
 };
 
-export const createGroup = (req: Request, res: Response, next: NextFunction) => {
+export const createGroup = (req: Request, res: Response) => {
     const createGroup = () => groupServices.createGroup(req.body)
         .then((data) => {
             if (!data) {
@@ -73,7 +73,7 @@ export const createGroup = (req: Request, res: Response, next: NextFunction) => 
 
 };
 
-export const getAllGroups = (req: Request, res: Response, next: NextFunction) => {
+export const getAllGroups = (req: Request, res: Response) => {
     groupServices.getAllGroup()
         .then((data) => {
             if (data === null) {
@@ -84,6 +84,6 @@ export const getAllGroups = (req: Request, res: Response, next: NextFunction) =>
         })
 };
 
-export const addUsersToGroup = async (req: ValidatedRequest<AddUsersToGroupRequestSchema>, res: Response, next: NextFunction) => {
+export const addUsersToGroup = async (req: ValidatedRequest<AddUsersToGroupRequestSchema>, res: Response) => {
     await groupServices.addUsersToGroup(req.params.id, req.body.users)
 };
