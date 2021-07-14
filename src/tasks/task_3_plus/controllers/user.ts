@@ -1,11 +1,11 @@
 import { Response, Request, NextFunction } from 'express';
-import { userServices } from "../services/user";
-import { ReasonPhrases, StatusCodes } from "http-status-codes";
+import { userServices } from '../services/user';
+import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { sendNoSmth } from './sendNoSmth';
 import { AutoSuggestUsersRequestSchema } from '../types';
 import { ValidatedRequest } from "express-joi-validation";
 
-export const getUser = (req: Request, res: Response, next: NextFunction) => {
+export const getUser = (req: Request, res: Response) => {
     userServices.getUserById(req.params.id)
         .then((data) => {
             if (data === null) {
@@ -16,7 +16,7 @@ export const getUser = (req: Request, res: Response, next: NextFunction) => {
         })
 };
 
-export const updateUser = (req: Request, res: Response, next: NextFunction) => {
+export const updateUser = (req: Request, res: Response) => {
     userServices.updateUser(req.params.id, req.body)
         .then((data) => {
             if (!data[0]) {
@@ -30,7 +30,7 @@ export const updateUser = (req: Request, res: Response, next: NextFunction) => {
         })
 };
 
-export const deleteUser = (req: Request, res: Response, next: NextFunction) => {
+export const deleteUser = (req: Request, res: Response) => {
     userServices.deleteUser(req.params.id)
         .then((data) => {
             if (!data[0]) {
@@ -44,7 +44,7 @@ export const deleteUser = (req: Request, res: Response, next: NextFunction) => {
         })
 };
 
-export const createUser = (req: Request, res: Response, next: NextFunction) => {
+export const createUser = (req: Request, res: Response) => {
     const createUser = () => userServices.createUser(req.body)
         .then((data) => {
             if (!data) {
